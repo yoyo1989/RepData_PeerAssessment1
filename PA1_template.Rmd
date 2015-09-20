@@ -17,6 +17,7 @@ activity <- read.csv("activity.csv")
 
 ## What is mean total number of steps taken per day?
 For this part of the assignment, ignore the missing values in the dataset.
+
 1.Calculate the total number of steps taken per day
 ```{r total-data,cache = TRUE}
 steps.date <- aggregate(x = activity$steps , by = list(activity$date), FUN = sum, na.rm=TRUE)
@@ -32,6 +33,7 @@ histplot <- ggplot(steps.date,aes(x = steps)) +
             scale_fill_gradient("No. of days", low = "blue", high = "purple")
 histplot
 ```
+
 3.Calculate and report the mean and median of the total number of steps taken per day
 ```{r mean-data,cache = TRUE}
 mean(steps.date$steps)
@@ -49,6 +51,7 @@ avg.step <- ggplot(steps.interval,aes(interval,steps)) +
                  geom_line(color='purple')
 avg.step
 ```
+
 2.Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 ```{r max-data,cache = TRUE}
 steps.interval$interval[which.max(steps.interval$steps)]
@@ -59,19 +62,25 @@ steps.interval$interval[which.max(steps.interval$steps)]
 ```{r nan-data,cache = TRUE}
 sum(is.na(activity))
 ```
-2.fill in all missing values with the mean for the 5-minute interval
+2.Fill in all missing values with the mean for the 5-minute interval
 ```{r fill-data,cache = TRUE}
 activity_merge <- merge(activity, steps.interval, by = "interval")
 nas <- is.na(activity_merge$steps.x)
 activity_merge$steps.x[nas] <- activity_merge$steps.y[nas]
 ```
 3.Create a new dataset that is equal to the original dataset but with the missing data filled in.
-```{r new-data,cache = TRUE}
+```{r make-new-data,cache = TRUE}
 activity_new <- activity_merge[, c(1:3)]
 activity_new=activity_new[order(activity_new$date,activity_new$interval),]
 activity_new=data.frame(activity_new$steps.x,activity_new$date,activity_new$interval)
 names(activity_new) <- c("steps","date","interval")
+```
+new dataset
+```{r new-data,cache = TRUE}
 head(activity_new)
+```
+original dataset
+```{r old-data,cache = TRUE}
 head(activity)
 ```
 4.1.Make a histogram of the total number of steps taken each day 
@@ -85,6 +94,7 @@ histplot_new <- ggplot(steps.date.new,aes(x = steps)) +
             scale_fill_gradient("No. of days", low = "blue", high = "purple")
 histplot_new
 ```
+
 4.2.Calculate and report the mean and median total number of steps taken per day
 ```{r new-mean-data,cache = TRUE}
 mean(steps.date.new$steps)
@@ -113,4 +123,5 @@ xyplot(steps~interval | weekday, data = steps.interval.weekday,
         })
 ```
 
-There are differences in activity patterns between weekdays and weekends. The dashed horizontal lines indicate average steps of 100. During weekends, there are more intervals with average steps > 100, while during weekdays, there are less intervals with average steps > 100, indicating people are more active during weekends than weekdays.   
+There are differences in activity patterns between weekdays and weekends. The dashed horizontal lines indicate average steps of 100. There are more intervals with average steps > 100 during weekends than weekdays, indicating people are more active during weekends than weekdays.  
+

@@ -13,6 +13,7 @@ activity <- read.csv("activity.csv")
 
 ## What is mean total number of steps taken per day?
 For this part of the assignment, ignore the missing values in the dataset.
+
 1.Calculate the total number of steps taken per day
 
 ```r
@@ -42,6 +43,7 @@ histplot
 ```
 
 ![](PA1_template_files/figure-html/hist-data-1.png) 
+
 3.Calculate and report the mean and median of the total number of steps taken per day
 
 ```r
@@ -74,6 +76,7 @@ avg.step
 ```
 
 ![](PA1_template_files/figure-html/daily-data-1.png) 
+
 2.Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
 ```r
@@ -94,7 +97,7 @@ sum(is.na(activity))
 ```
 ## [1] 2304
 ```
-2.fill in all missing values with the mean for the 5-minute interval
+2.Fill in all missing values with the mean for the 5-minute interval
 
 ```r
 activity_merge <- merge(activity, steps.interval, by = "interval")
@@ -108,6 +111,10 @@ activity_new <- activity_merge[, c(1:3)]
 activity_new=activity_new[order(activity_new$date,activity_new$interval),]
 activity_new=data.frame(activity_new$steps.x,activity_new$date,activity_new$interval)
 names(activity_new) <- c("steps","date","interval")
+```
+new dataset
+
+```r
 head(activity_new)
 ```
 
@@ -120,6 +127,7 @@ head(activity_new)
 ## 5 0.0754717 2012-10-01       20
 ## 6 2.0943396 2012-10-01       25
 ```
+original dataset
 
 ```r
 head(activity)
@@ -148,6 +156,7 @@ histplot_new
 ```
 
 ![](PA1_template_files/figure-html/new-hist-data-1.png) 
+
 4.2.Calculate and report the mean and median total number of steps taken per day
 
 ```r
@@ -192,4 +201,5 @@ xyplot(steps~interval | weekday, data = steps.interval.weekday,
 
 ![](PA1_template_files/figure-html/week-daily-data-1.png) 
 
-There are differences in activity patterns between weekdays and weekends. The dashed horizontal lines indicate average steps of 100. During weekends, there are more intervals with average steps > 100, while during weekdays, there are less intervals with average steps > 100, indicating people are more active during weekends than weekdays.   
+There are differences in activity patterns between weekdays and weekends. The dashed horizontal lines indicate average steps of 100. There are more intervals with average steps > 100 during weekends than weekdays, indicating people are more active during weekends than weekdays.  
+
